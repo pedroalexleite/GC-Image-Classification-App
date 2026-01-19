@@ -1,0 +1,39 @@
+{% extends 'general-template.html' %}
+{% block content %}
+
+<h1>{{ image_id }}</h1>
+
+<table>
+    <tr>
+        <th>Classes</th>
+        <th>Relations</th>
+        <th>Image</th>
+    </tr>
+    <tr>
+        <td>
+            {% for index, row in data.iterrows() %}
+                {% if not row['Classes']|string == 'nan' %}
+                    <a href="/image_search?description={{ row['Classes'] }}"> {{ row['Classes'] }}</a><br>
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            {% for index, row in data.iterrows() %}
+                {% if not row['Relations']|string == 'nan' %}
+                    {% set relation_split = row['Relations'].split(' ') %}
+                    {% set class1 = relation_split[0] %}
+                    {% set relation = relation_split[1] %}
+                    {% set class2 = relation_split[2] %}
+                    <a href="/relation_search?class1={{ class1 }}&relation={{ relation }}&class2={{ class2 }}">{{ row['Relations'] }}</a><br>
+                {% endif %}
+            {% endfor %}
+        </td>
+        <td>
+            <a href="{{ data.iloc[0]['Image'] }}" target="_blank">
+                <img src="{{ data.iloc[0]['Image'] }}" style="width: 300px;">
+            </a>
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

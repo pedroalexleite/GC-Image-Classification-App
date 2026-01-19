@@ -1,0 +1,38 @@
+{% extends 'general-template.html' %}
+{% block content %}
+
+<h1>{{ class1 }} → {{ relation }} → {{ class2 }}</h1>
+<p>{{ results_count }} results out of {{ image_limit }} requested.</p>
+
+<table>
+    <tr>
+        <th>ImageId</th>
+        <th>Class 1</th>
+        <th>Relation</th>
+        <th>Class 2</th>
+        <th>Image</th>
+    </tr>
+    {% for index, row in data.iterrows() %}
+    <tr>
+        <td>
+            <a href="/image_info?image_id={{ row['ImageId'] }}">{{ row['ImageId'] }}</a>
+        </td>
+        <td>
+            <a href="/image_search?description={{ row['Class 1'] }}">{{ row['Class 1'] }}</a>
+        </td>
+        <td>
+            <a href="/relation_search?&relation={{ row['Relation'] }}">{{ row['Relation'] }}</a>
+        </td>
+        <td>
+            <a href="/image_search?description={{ row['Class 2'] }}">{{ row['Class 2'] }}</a>
+        </td>
+        <td>
+            <a href="{{ row['Image'] }}" target="_blank">
+                <img src="{{ row['Image'] }}" style="width: 300px;">
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
